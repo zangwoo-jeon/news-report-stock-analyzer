@@ -1,3 +1,7 @@
 /gradlew text eol=lf
 *.bat text eol=crlf
 *.jar binary
+# Spring Boot 설정 파일 무시
+application.yml
+application.yaml
+application.properties
