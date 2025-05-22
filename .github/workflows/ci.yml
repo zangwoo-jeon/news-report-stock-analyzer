@@ -60,7 +60,7 @@ jobs:
       # 3. Gradle Wrapper 권한 설정
       # Linux/Ubuntu 환경에서는 gradlew 스크립트에 실행 권한이 필요합니다.
       - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+        run: chmod +x back-end/gradlew
 
       # 4. PostgreSQL DB가 준비될 때까지 대기 (Step 5)
       # services 블록의 health check로 자동 대기되지만, 명시적인 대기 step도 추가 가능
@@ -87,8 +87,7 @@ jobs:
       - name: Build and Run Tests
         run: |
           echo "Building and running tests with Gradle..."
-          # './gradlew check'는 보통 dependencies, compile, test, lint 등 검증 태스크를 포함합니다.
-          # 테스트 코드는 application-test.properties 등의 설정에 따라 localhost:5432로 연결됩니다.
+          cd back-end
           ./gradlew clean check
 
         env:
@@ -112,7 +111,7 @@ jobs:
         with:
           name: test-results
           # Gradle 기본 JUnit 테스트 보고서 경로. 'test' 태스크 기준.
-          path: build/reports/tests/test/
+          path: back-end/build/reports/tests/test/
           retention-days: 5 # 아티팩트 보존 기간
 
 
