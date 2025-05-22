@@ -1,4 +1,4 @@
-package com.investinghelper.global.kis;
+package com.newstoss.global.kis;
 
 import lombok.Getter;
 import lombok.Setter;

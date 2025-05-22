@@ -1,4 +1,4 @@
-package com.investinghelper.global.response;
+package com.newstoss.global.response;
 
 /**
  * 성공 응답 메세지에 대한 DTO 클래스이다.<br>

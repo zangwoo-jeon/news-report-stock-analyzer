@@ -1,6 +1,6 @@
-package com.investinghelper.global.handler;
+package com.newstoss.global.handler;
 
-import com.investinghelper.global.response.ErrorResponse;
+import com.newstoss.global.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

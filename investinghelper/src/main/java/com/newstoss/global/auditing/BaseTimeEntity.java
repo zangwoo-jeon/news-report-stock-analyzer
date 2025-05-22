@@ -1,4 +1,4 @@
-package com.investinghelper.global.auditing;
+package com.newstoss.global.auditing;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 
 @MappedSuperclass
 @Getter
+
 public class BaseTimeEntity {
 
     @CreatedDate

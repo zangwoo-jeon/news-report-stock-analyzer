@@ -1,4 +1,4 @@
-package com.investinghelper.global.kis;
+package com.newstoss.global.kis;
 
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,5 @@
-package com.investinghelper.global.kis;
+package com.newstoss.global.kis;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data

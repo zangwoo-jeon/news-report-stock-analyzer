@@ -1,4 +1,4 @@
-package com.investinghelper;
+package com.newstoss;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
