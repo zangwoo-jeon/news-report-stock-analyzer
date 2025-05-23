@@ -93,6 +93,14 @@ jobs:
           SPRING_DATASOURCE_PASSWORD: testpassword # 보안상 Secrets 사용 권장
           SPRING_JPA_HIBERNATE_DDL_AUTO: create-drop # 또는 update (테스트 시 스키마 자동 생성/업데이트)
           SPRING_SQL_INIT_MODE: always # 테스트 데이터 스크립트 자동 실행 (classpath:test-data.sql 등)
+          # Spring Security 설정
+          SPRING_SECURITY_USER_NAME: test
+          SPRING_SECURITY_USER_PASSWORD: test
+          # Swagger 설정
+          SPRINGDOC_API_DOCS_PATH: /v3/api-docs
+          SPRINGDOC_SWAGGER_UI_PATH: /swagger-ui.html
+          SPRINGDOC_SWAGGER_UI_OPERATIONS_SORTER: method
+          SPRINGDOC_SWAGGER_UI_TAGS_SORTER: alpha
           # 필요한 다른 테스트 관련 환경 변수 추가
           KIS_APPKEY: ${{ secrets.KIS_APP_KEY }}
           KIS_APPSECRET: ${{ secrets.KIS_APP_SECRET }}
