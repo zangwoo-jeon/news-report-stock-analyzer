@@ -16,4 +16,5 @@ public class SignupRequestDTO {
     private String phoneNumber;
     private String email;
     private UUID fgOffset;
+    private AddressDTO address;
 }

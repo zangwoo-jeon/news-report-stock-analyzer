@@ -1,5 +1,6 @@
-package com.newstoss.global.handler;
+package com.newstoss.global.response;
 
+import com.newstoss.global.errorcode.ErrorCode;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class ResponseErrorEntity {
                 .body(ResponseErrorEntity.builder()
                         .status(e.getHttpStatus().value())
                         .isSuccess(e.isSuccess())
-                        .name(e.name())
+                        .name(e.getClass().getSimpleName())
                         .code(e.getCode())
                         .message(e.getMessage())
                         .build());
