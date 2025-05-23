@@ -21,13 +21,13 @@ public class MemberController {
 
     @PostMapping("/register")
     public ResponseEntity<SuccessResponse<Object>> signup(@RequestBody SignupRequestDTO requestDTO){
-        Member member = memberService.signup(requestDTO);
+        Member member= memberService.signup(requestDTO);
         return ResponseEntity.ok(new SuccessResponse<>(true, "회원가입 성공", null));
     }
 
     @DeleteMapping("/withdraw")
     public ResponseEntity<SuccessResponse<Object>> withdraw(@RequestBody UUID memberId){
         memberService.withdraw(memberId);
-        return ResponseEntity.ok(new SuccessResponse<>(true, "회원탈퇴 성고", null));
+        return ResponseEntity.ok(new SuccessResponse<>(true, "회원탈퇴 성공", null));
     }
 }

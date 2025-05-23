@@ -1,6 +1,9 @@
 package com.newstoss.member.application.command;
 
+import com.newstoss.global.handler.CustomException;
+import com.newstoss.global.handler.ErrorCode;
 import com.newstoss.member.adapter.in.web.dto.requestDTO.SignupRequestDTO;
+import com.newstoss.member.domain.Address;
 import com.newstoss.member.domain.Member;
 import com.newstoss.member.domain.MemberCommandPort;
 import com.newstoss.member.domain.MemberQueryPort;
@@ -19,7 +22,7 @@ public class SignupService {
     public Member exec(SignupRequestDTO signupRequestDTO){
         Optional<Member> existing = memberQueryPort.findByAccount(signupRequestDTO.getAccount());
         if (existing.isPresent()) {
-            throw new IllegalArgumentException("이미 존재하는 계정입니다.");
+            throw new CustomException(ErrorCode.DUPLICATE_ACCOUNT);
         }
 
         Member member = Member.builder()
@@ -30,6 +33,11 @@ public class SignupService {
                 .phoneNumber(signupRequestDTO.getPhoneNumber())
                 .email(signupRequestDTO.getEmail())
                 .fgOffset(signupRequestDTO.getFgOffset())
+                .address(Address.builder()
+                        .zipcode(signupRequestDTO.getAddress().getZipcode())
+                        .address(signupRequestDTO.getAddress().getAddress())
+                        .addressDetail(signupRequestDTO.getAddress().getAddressDetail())
+                        .build())
                 .build();
         return memberCommandPort.save(member);
     }
