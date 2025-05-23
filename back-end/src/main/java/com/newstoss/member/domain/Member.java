@@ -1,9 +1,6 @@
 package com.newstoss.member.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.UUID;
@@ -29,4 +26,6 @@ public class Member {
     private String email;
     @Column(name = "fg_offset")
     private UUID fgOffset;
+    @Embedded
+    private Address address;
 }

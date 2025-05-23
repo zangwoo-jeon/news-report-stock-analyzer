@@ -1,10 +1,15 @@
 package com.newstoss.global.handler;
 
-import lombok.AllArgsConstructor;
+import com.newstoss.global.errorcode.ErrorCode;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
 public class CustomException extends RuntimeException {
-    ErrorCode errorCode;
+
+    private final ErrorCode errorCode;
+
+    public CustomException(ErrorCode errorCode) {
+        super(errorCode.getMessage());
+        this.errorCode = errorCode;
+    }
 }
