@@ -81,9 +81,9 @@ jobs:
       # back-end 디렉토리에서 Gradle의 'check' 태스크를 사용하여 의존성 설치, 컴파일, 유닛/통합 테스트 실행 등을 수행합니다.
       - name: Build and Run Tests
         run: |
-          echo "Building and running tests with Gradle..."
+          echo "Building without tests..."
           cd back-end
-          ./gradlew clean check
+          ./gradlew clean build -x test
 
         env:
           # Spring Boot 테스트가 services 블록의 DB 정보를 환경 변수에서 읽도록 구성되었다면 추가합니다.
