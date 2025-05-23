@@ -1,5 +1,6 @@
 package com.newstoss.member.application.command;
 
+import com.newstoss.member.adapter.in.web.dto.requestDTO.AddressDTO;
 import com.newstoss.member.adapter.in.web.dto.requestDTO.SignupRequestDTO;
 import com.newstoss.member.adapter.out.persistence.JPAMemberRepository;
 import com.newstoss.member.domain.Member;
@@ -13,7 +14,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -31,10 +31,12 @@ class WithdrawServiceTest {
 
     @Test
     void Withdraw(){
-        SignupRequestDTO dto = new SignupRequestDTO("abc123", "pw123", "홍길동", "010-1234-5678", "test@test.com", UUID.randomUUID());
+        // given
+        AddressDTO address= new AddressDTO("238","서울","한경");
+        SignupRequestDTO dto = new SignupRequestDTO("abc123", "pw123", "홍길동", "010-1234-5678", "test@test.com", UUID.randomUUID(),address);
 
         // when
-         Member member=signupService.exec(dto);
+        Member member=signupService.exec(dto);
 
         // then
         withdrawService.exec(member.getMemberId());
