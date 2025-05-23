@@ -24,9 +24,10 @@ kis:
 
 springdoc:
   api-docs:
-
     path: /v3/api-docs       # Swagger JSON 문서 경로
   swagger-ui:
     path: /swagger-ui.html   # Swagger UI 브라우저 접속 경로
     operationsSorter: method
     tagsSorter: alpha
+jwt:
+  secret: "5e2f33c0e94b10ccde5b412ff23b0c2cb541af97c118a21a5f1ec10f8c60bd73"
