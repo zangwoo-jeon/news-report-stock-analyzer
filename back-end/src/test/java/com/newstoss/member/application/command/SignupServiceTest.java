@@ -4,12 +4,14 @@ import com.newstoss.global.handler.CustomException;
 import com.newstoss.member.adapter.in.web.dto.requestDTO.AddressDTO;
 import com.newstoss.member.adapter.in.web.dto.requestDTO.SignupRequestDTO;
 import com.newstoss.member.adapter.out.persistence.JPAMemberRepository;
+import com.newstoss.member.domain.Address;
 import com.newstoss.member.domain.Member;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.UUID;
 
