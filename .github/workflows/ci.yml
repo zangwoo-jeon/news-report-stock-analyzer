@@ -37,9 +37,9 @@ jobs:
         # services 블록의 health check는 해당 포트가 응답할 때까지 기다립니다.
         options: >-
           --health-cmd "pg_isready -U testuser -d testdb"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 10
+          --health-interval 5s
+          --health-timeout 10s
+          --health-retries 20
 
     # 작업에서 실행될 단계(Step) 정의 (Step 1 ~ 9)
     steps:
@@ -71,11 +71,11 @@ jobs:
       - name: Wait for PostgreSQL to be ready
         run: |
           echo "Waiting for PostgreSQL on localhost:5432..."
-          timeout 60 bash -c 'while ! pg_isready -h localhost -p 5432; do sleep 1; done'
-        env: # pg_isready 명령에 필요한 환경 변수 전달 (서비스 블록 값과 일치시킴)
-          PGUSER: testuser # <-- 서비스 블록의 POSTGRES_USER 값과 일치
-          PGDATABASE: testdb # <-- 서비스 블록의 POSTGRES_DB 값과 일치
-          PGPASSWORD: testpassword # <-- 서비스 블록의 POSTGRES_PASSWORD 값과 일치 (보안상 Secrets 사용 권장)
+          timeout 120 bash -c 'while ! pg_isready -h localhost -p 5432; do sleep 2; done'
+        env:
+          PGUSER: testuser
+          PGDATABASE: testdb
+          PGPASSWORD: testpassword
 
       # 5. 애플리케이션 빌드 및 테스트 실행 (Step 3, 4, 6, 7, 8 통합)
       # back-end 디렉토리에서 Gradle의 'check' 태스크를 사용하여 의존성 설치, 컴파일, 유닛/통합 테스트 실행 등을 수행합니다.
