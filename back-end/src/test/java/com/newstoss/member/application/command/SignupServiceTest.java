@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import java.util.UUID;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -26,7 +27,7 @@ class SignupServiceTest {
     @Test
     void signuptest() {
         // given
-        SignupRequestDTO dto = new SignupRequestDTO("abc123", "pw123", "홍길동", "010-1234-5678", "test@test.com", null);
+        SignupRequestDTO dto = new SignupRequestDTO("abc123", "pw123", "홍길동", "010-1234-5678", "test@test.com", UUID.randomUUID());
 
         // when
         Member saved = signupService.exec(dto);
@@ -39,7 +40,7 @@ class SignupServiceTest {
     @Test
     void check_id() {
         // given
-        SignupRequestDTO dto = new SignupRequestDTO("abc123", "pw123", "홍길동", "010-1234-5678", "test@test.com", null);
+        SignupRequestDTO dto = new SignupRequestDTO("abc123", "pw123", "홍길동", "010-1234-5678", "test@test.com", UUID.randomUUID());
         signupService.exec(dto); // 1회 가입
 
         // when & then
