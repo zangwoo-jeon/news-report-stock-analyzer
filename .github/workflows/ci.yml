@@ -94,6 +94,10 @@ jobs:
           SPRING_JPA_HIBERNATE_DDL_AUTO: create-drop # 또는 update (테스트 시 스키마 자동 생성/업데이트)
           SPRING_SQL_INIT_MODE: always # 테스트 데이터 스크립트 자동 실행 (classpath:test-data.sql 등)
           # 필요한 다른 테스트 관련 환경 변수 추가
+          KIS_APPKEY: ${{ secrets.KIS_APP_KEY }}
+          KIS_APPSECRET: ${{ secrets.KIS_APP_SECRET }}
+          KIS_GRANT_TYPE: client_credentials # 이 값은 민감하지 않으므로 secrets 없이 직접 명시
+          KIS_TOKEN_URL: https://openapi.koreainvestment.com:9443/oauth2/toke # 이 값도 민감하지 않으므로 직접 명시
           TEST_ENVIRONMENT: ci
 
       # 6. (선택) 테스트 결과 보고 (Step 9 상세)
