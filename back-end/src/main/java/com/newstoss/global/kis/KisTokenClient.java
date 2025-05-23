@@ -17,7 +17,9 @@ public class KisTokenClient {
     public KisTokenResponse fetchToken() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-
+        System.out.println("appkey: " + props.getAppkey());
+        System.out.println("grant_type: " + props.getGrant_Type());
+        System.out.println("appsecret: " + props.getAppsecret());
         Map<String, String> body = Map.of(
                 "grant_type", props.getGrant_Type(),
                 "appkey", props.getAppkey(),

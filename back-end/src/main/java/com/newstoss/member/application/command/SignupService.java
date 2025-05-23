@@ -1,7 +1,7 @@
 package com.newstoss.member.application.command;
 
 import com.newstoss.global.handler.CustomException;
-import com.newstoss.global.handler.ErrorCode;
+import com.newstoss.global.errorcode.UserErrorCode;
 import com.newstoss.member.adapter.in.web.dto.requestDTO.SignupRequestDTO;
 import com.newstoss.member.domain.Address;
 import com.newstoss.member.domain.Member;
@@ -22,7 +22,7 @@ public class SignupService {
     public Member exec(SignupRequestDTO signupRequestDTO){
         Optional<Member> existing = memberQueryPort.findByAccount(signupRequestDTO.getAccount());
         if (existing.isPresent()) {
-            throw new CustomException(ErrorCode.DUPLICATE_ACCOUNT);
+            throw new CustomException(UserErrorCode.DUPLICATE_ACCOUNT);
         }
 
         Member member = Member.builder()
