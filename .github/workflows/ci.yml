@@ -37,9 +37,9 @@ jobs:
         # services 블록의 health check는 해당 포트가 응답할 때까지 기다립니다.
         options: >-
           --health-cmd "pg_isready -U testuser -d testdb"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 10
+          --health-interval 5s
+          --health-timeout 10s
+          --health-retries 20
 
     # 작업에서 실행될 단계(Step) 정의 (Step 1 ~ 9)
     steps:
@@ -71,11 +71,11 @@ jobs:
       - name: Wait for PostgreSQL to be ready
         run: |
           echo "Waiting for PostgreSQL on localhost:5432..."
-          timeout 60 bash -c 'while ! pg_isready -h localhost -p 5432; do sleep 1; done'
-        env: # pg_isready 명령에 필요한 환경 변수 전달 (서비스 블록 값과 일치시킴)
-          PGUSER: testuser # <-- 서비스 블록의 POSTGRES_USER 값과 일치
-          PGDATABASE: testdb # <-- 서비스 블록의 POSTGRES_DB 값과 일치
-          PGPASSWORD: testpassword # <-- 서비스 블록의 POSTGRES_PASSWORD 값과 일치 (보안상 Secrets 사용 권장)
+          timeout 120 bash -c 'while ! pg_isready -h localhost -p 5432; do sleep 2; done'
+        env:
+          PGUSER: testuser
+          PGDATABASE: testdb
+          PGPASSWORD: testpassword
 
       # 5. 애플리케이션 빌드 및 테스트 실행 (Step 3, 4, 6, 7, 8 통합)
       # back-end 디렉토리에서 Gradle의 'check' 태스크를 사용하여 의존성 설치, 컴파일, 유닛/통합 테스트 실행 등을 수행합니다.
@@ -88,11 +88,11 @@ jobs:
         env:
           # Spring Boot 테스트가 services 블록의 DB 정보를 환경 변수에서 읽도록 구성되었다면 추가합니다.
           # 하지만 일반적인 Spring Boot 설정에서는 application-test.properties 파일 사용을 선호합니다.
-          # SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/testdb
-          # SPRING_DATASOURCE_USERNAME: testuser
-          # SPRING_DATASOURCE_PASSWORD: testpassword # 보안상 Secrets 사용 권장
-          # SPRING_JPA_HIBERNATE_DDL_AUTO: create-drop # 또는 update (테스트 시 스키마 자동 생성/업데이트)
-          # SPRING_SQL_INIT_MODE: always # 테스트 데이터 스크립트 자동 실행 (classpath:test-data.sql 등)
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/testdb
+          SPRING_DATASOURCE_USERNAME: testuser
+          SPRING_DATASOURCE_PASSWORD: testpassword # 보안상 Secrets 사용 권장
+          SPRING_JPA_HIBERNATE_DDL_AUTO: create-drop # 또는 update (테스트 시 스키마 자동 생성/업데이트)
+          SPRING_SQL_INIT_MODE: always # 테스트 데이터 스크립트 자동 실행 (classpath:test-data.sql 등)
           # 필요한 다른 테스트 관련 환경 변수 추가
           TEST_ENVIRONMENT: ci
 
