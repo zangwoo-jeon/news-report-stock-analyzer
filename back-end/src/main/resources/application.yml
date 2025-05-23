@@ -24,8 +24,9 @@ kis:
 
 springdoc:
   api-docs:
-    path: /v3/api-docs # Swagger JSON 문서 경로
+
+    path: /v3/api-docs       # Swagger JSON 문서 경로
   swagger-ui:
-    path: /swagger-ui.html # Swagger UI 브라우저 접속 경로
+    path: /swagger-ui.html   # Swagger UI 브라우저 접속 경로
     operationsSorter: method
     tagsSorter: alpha
