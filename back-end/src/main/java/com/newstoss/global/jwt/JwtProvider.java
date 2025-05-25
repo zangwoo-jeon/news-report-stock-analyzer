@@ -1,41 +1,47 @@
-package com.newstoss.auth.jwt;
+package com.newstoss.global.jwt;
+
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.RequiredArgsConstructor;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.security.Key;
 import java.util.Date;
 import java.util.UUID;
 
 @Component
-@RequiredArgsConstructor
-public class JWTProvider {
+public class JwtProvider {
+    private final Key secretKey;
+    private static final long ACCESS_EXPIRATION = 3600000;
 
-    @Value("${jwt.secret}")
-    private String secretKey;
+    public JwtProvider(@Value("${jwt.secret}") String secret) {
+        this.secretKey = Keys.hmacShaKeyFor(secret.getBytes());
+    }
 
-    private static final long ACCESS_EXPIRATION = 3600000; // 1시간
-
-    public String generateToken(UUID memberId) {
+    public String generateToken(UUID memberId, String memberName) {
         Date now = new Date();
         Date expiry = new Date(now.getTime() + ACCESS_EXPIRATION);
 
         return Jwts.builder()
                 .setSubject("ACCESS_TOKEN")
                 .claim("memberId", memberId.toString())
+                .claim("memberName", memberName)
                 .setIssuedAt(now)
                 .setExpiration(expiry)
-                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            Jwts.parserBuilder()
+                    .setSigningKey(secretKey)
+                    .build()
+                    .parseClaimsJws(token);
             return true;
         } catch (JwtException e) {
             return false;
@@ -43,11 +49,11 @@ public class JWTProvider {
     }
 
     public UUID getMemberId(String token) {
-        Claims claims = Jwts.parser()
+        Claims claims = Jwts.parserBuilder()
                 .setSigningKey(secretKey)
+                .build()
                 .parseClaimsJws(token)
                 .getBody();
-
         return UUID.fromString(claims.get("memberId", String.class));
     }
 }

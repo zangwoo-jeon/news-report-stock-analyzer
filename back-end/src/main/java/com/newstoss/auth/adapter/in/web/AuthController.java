@@ -2,6 +2,7 @@ package com.newstoss.auth.adapter.in.web;
 
 import com.newstoss.auth.adapter.in.web.dto.requestDTO.LoginDTO;
 import com.newstoss.auth.application.AuthService;
+import com.newstoss.global.response.SuccessResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody LoginDTO request, HttpServletResponse response) {
+    public ResponseEntity<SuccessResponse<Object>> login(@RequestBody LoginDTO request, HttpServletResponse response) {
         String jwt = authService.login(request);
         Cookie cookie = new Cookie("accessToken", jwt);
         cookie.setHttpOnly(true);
@@ -24,7 +25,7 @@ public class AuthController {
         cookie.setPath("/");
         cookie.setMaxAge(3600); // 1시간
         response.addCookie(cookie);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new SuccessResponse<>(true, "로그인 성공", null));
     }
 
     @PostMapping("/logout")
