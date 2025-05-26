@@ -4,21 +4,39 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 @Slf4j
 public class KisTokenManager {
     private final KisTokenClient kisTokenClient;
-    private final KisTokenStore kisTokenStore;
+    private final KisTokenRepository kisTokenRepository;
 
-    public void refresh() {
+    public String refresh() {
         log.info("KisTokenManager.refresh() called");
         KisTokenResponse tokenResponse = kisTokenClient.fetchToken();
-        kisTokenStore.store(tokenResponse.getAccess_token(), tokenResponse.getExpires_in());
+        KisToken newToken = KisToken.createToken(tokenResponse);
+        kisTokenRepository.save(newToken);
+        return newToken.getToken();
     }
 
     public String getToken() {
-        System.out.println("토큰 요청");
-        return kisTokenStore.get();
+        Optional<KisToken> latest = kisTokenRepository.findTopByOrderByIdDesc();
+
+        if (latest.isEmpty()) {
+            return refresh();
+        } else if (latest.get().getExpireAt().isBefore(LocalDateTime.now())) {
+            log.info("KisTokenManager.getToken() - Token expired, refreshing token");
+            KisTokenResponse tokenResponse = kisTokenClient.fetchToken();
+            latest.get().changeToken(tokenResponse);
+            return latest.get().getToken();
+        }
+        else {
+            log.info("KisTokenManager.getToken() - Returning existing token");
+            return latest.get().getToken();
+        }
     }
 }

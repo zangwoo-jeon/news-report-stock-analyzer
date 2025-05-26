@@ -13,7 +13,7 @@ public class TokenSchedular {
     @PostConstruct
     public void init() {
         // 초기화 시 토큰 갱신
-        kisTokenManager.refresh();
+        kisTokenManager.getToken();
     }
 
     @Scheduled(fixedDelay = 1000*60*60*12, initialDelay = 1000*60*60*12) // 12시간마다 갱신
