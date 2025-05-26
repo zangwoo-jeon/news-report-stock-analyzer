@@ -1,0 +1,31 @@
+services:
+#  backend:
+#    image: 680164044088.dkr.ecr.ap-northeast-2.amazonaws.com/web-server
+#    ports:
+#      - 8080:8080
+#    volumes:
+#      - ./application.properties:/config/application.properties
+#    depends_on:
+#      postgres-db:
+#        condition: service_healthy
+
+  postgres-db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: newstoss
+    ports:
+      - 5432:5432
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "myuser", "-d", "newstoss"]
+      interval: 10s
+      retries: 5
+    # volumes:
+    #  - type: tmpfs
+    #    target: /dev/shm
+    #    tmpfs:
+    #      size: 134217728 # 128*2^20 bytes = 128Mb
